@@ -1,0 +1,107 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #add8e6, #ffa500);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header input {
+            width: 70%;
+            padding: 10px;
+            border: 2px solid #ffa500;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .header button {
+            padding: 10px 15px;
+            border: none;
+            background: #ffa500;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .header button:hover {
+            background: #e69500;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: translateX(5px);
+        }
+
+        li span {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .actions button {
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-left: 5px;
+            cursor: pointer;
+            color: white;
+            transition: opacity 0.3s;
+        }
+
+        .actions .edit {
+            background: #17a2b8;
+        }
+
+        .actions .edit:hover {
+            opacity: 0.8;
+        }
+
+        .actions .delete {
+            background: #dc3545;
+        }
+
+        .actions .delete:hover {
+            opacity: 0.8;
+        }
+       
+        h1{
+            text-align: center;
+             margin-bottom: 20px; 
+             color: #ffa500;}
