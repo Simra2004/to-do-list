@@ -1,14 +1,21 @@
+// DOM Elements
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 const addButton = document.getElementById('addButton');
+const taskForm = document.getElementById('taskForm');
 
 let taskIdCounter = 0;
 
+// Toggle Add button state based on input value
 taskInput.addEventListener('input', () => {
     addButton.disabled = taskInput.value.trim() === '';
 });
 
-addButton.addEventListener('click', addTask);
+// Handle form submission for adding task
+taskForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form reload
+    addTask();
+});
 
 function addTask() {
     const taskText = taskInput.value.trim();
@@ -56,29 +63,28 @@ function editTask(taskId, span, editButton) {
     li.insertBefore(input, span);
     li.removeChild(span);
 
-    const saveButton = document.createElement('button');
-    saveButton.className = 'save';
-    saveButton.textContent = 'Save';
-    saveButton.addEventListener('click', () => saveEdit(input, span, li, editButton, saveButton));
-    li.querySelector('.actions').appendChild(saveButton);
-
-    editButton.style.display = 'none';
     input.focus();
+
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            saveEdit(input, span, li, editButton);
+        } else if (event.key === 'Escape') {
+            cancelEdit(input, span, li, currentText);
+        }
+    });
 }
 
-function saveEdit(input, span, li, editButton, saveButton) {
+function saveEdit(input, span, li, editButton) {
     const newText = input.value.trim();
-    if (newText === '') {
-        alert('Task cannot be empty.');
-        input.focus();
-        return;
-    }
-    span.textContent = newText;
+    span.textContent = newText || "Untitled Task";
     li.insertBefore(span, input);
     li.removeChild(input);
+}
 
-    saveButton.remove();
-    editButton.style.display = 'inline-block';
+function cancelEdit(input, span, li, originalText) {
+    span.textContent = originalText;
+    li.insertBefore(span, input);
+    li.removeChild(input);
 }
 
 function deleteTask(taskId) {
