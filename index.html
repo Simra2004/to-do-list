@@ -5,17 +5,17 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>responsive To-Do List</title>
+    <title>Responsive To-Do List</title>
 </head>
 <body>
     <div class="container">
-        <h1 >To-Do List</h1>
+        <h1>To-Do List</h1>
         <div class="header">
-            <input type="text" id="taskInput" placeholder="Add a new task..." oninput="toggleAddButton()">
-            <button id="addButton" onclick="addTask()" disabled>Add</button>
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <button id="addButton" disabled>Add</button>
         </div>
         <ul id="taskList"></ul>
     </div>
+    <script src="todo.js"></script>
 </body>
-<script src="todo.js"></script>
 </html>

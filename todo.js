@@ -4,9 +4,11 @@ const addButton = document.getElementById('addButton');
 
 let taskIdCounter = 0;
 
-function toggleAddButton() {
+taskInput.addEventListener('input', () => {
     addButton.disabled = taskInput.value.trim() === '';
-}
+});
+
+addButton.addEventListener('click', addTask);
 
 function addTask() {
     const taskText = taskInput.value.trim();
@@ -26,25 +28,24 @@ function addTask() {
 
     const editButton = document.createElement('button');
     editButton.className = 'edit';
-    editButton.innerHTML = '<span class="material-icons">edit</span>';
-    editButton.onclick = () => editTask(taskId, span);
+    editButton.textContent = 'Edit';
+    editButton.addEventListener('click', () => editTask(taskId, span, editButton));
     actions.appendChild(editButton);
 
     const deleteButton = document.createElement('button');
     deleteButton.className = 'delete';
-    deleteButton.innerHTML = '<span class="material-icons">delete</span>';
-    deleteButton.onclick = () => deleteTask(taskId);
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => deleteTask(taskId));
     actions.appendChild(deleteButton);
 
     li.appendChild(actions);
-
     taskList.appendChild(li);
+
     taskInput.value = '';
-    toggleAddButton();
+    addButton.disabled = true;
 }
 
-function editTask(taskId, span) {
-
+function editTask(taskId, span, editButton) {
     const li = document.getElementById(taskId);
     const currentText = span.textContent;
 
@@ -52,30 +53,32 @@ function editTask(taskId, span) {
     input.type = 'text';
     input.value = currentText;
     input.className = 'edit-input';
-    input.onblur = () => saveEdit(input, span, li);
-    input.onkeydown = (e) => {
-        if (e.key === 'Enter') saveEdit(input, span, li); 
-        if (e.key === 'Escape') cancelEdit(input, span, li, currentText); 
-    };
+    li.insertBefore(input, span);
+    li.removeChild(span);
 
-    li.replaceChild(input, span);
+    const saveButton = document.createElement('button');
+    saveButton.className = 'save';
+    saveButton.textContent = 'Save';
+    saveButton.addEventListener('click', () => saveEdit(input, span, li, editButton, saveButton));
+    li.querySelector('.actions').appendChild(saveButton);
+
+    editButton.style.display = 'none';
     input.focus();
 }
 
-function saveEdit(input, span, li) {
+function saveEdit(input, span, li, editButton, saveButton) {
     const newText = input.value.trim();
     if (newText === '') {
-     alert('Task cannot be empty.');
+        alert('Task cannot be empty.');
         input.focus();
         return;
     }
     span.textContent = newText;
-    li.replaceChild(span, input);
-}
+    li.insertBefore(span, input);
+    li.removeChild(input);
 
-function cancelEdit(input, span, li, originalText) {
-    span.textContent = originalText; // Restore original text
-    li.replaceChild(span, input);
+    saveButton.remove();
+    editButton.style.display = 'inline-block';
 }
 
 function deleteTask(taskId) {
