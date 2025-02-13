@@ -1,4 +1,3 @@
-// DOM Elements
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 const addButton = document.getElementById('addButton');
@@ -6,14 +5,13 @@ const taskForm = document.getElementById('taskForm');
 
 let taskIdCounter = 0;
 
-// Toggle Add button state based on input value
 taskInput.addEventListener('input', () => {
     addButton.disabled = taskInput.value.trim() === '';
 });
 
-// Handle form submission for adding task
+
 taskForm.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form reload
+    event.preventDefault(); 
     addTask();
 });
 
@@ -22,7 +20,6 @@ function addTask() {
     if (taskText === '') return;
 
     const taskId = `task-${taskIdCounter++}`;
-
     const li = document.createElement('li');
     li.setAttribute('id', taskId);
 
@@ -56,7 +53,7 @@ function editTask(taskId, span, editButton) {
     const li = document.getElementById(taskId);
     const currentText = span.textContent;
 
-    const input = document.createElement('input');
+    let input = document.createElement('input');
     input.type = 'text';
     input.value = currentText;
     input.className = 'edit-input';
@@ -65,10 +62,29 @@ function editTask(taskId, span, editButton) {
 
     input.focus();
 
+    editButton.disabled = input.value.trim() === '';
+
+
+    input.addEventListener('input', function() {
+        editButton.disabled = input.value.trim() === '';
+    });
+
     input.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            saveEdit(input, span, li, editButton);
+            // Save only if input is not empty
+            if (input.value.trim() !== '') {
+                saveEdit(input, span, li, editButton);
+            }
         } else if (event.key === 'Escape') {
+            // Cancel edit and restore original text
+            cancelEdit(input, span, li, currentText);
+        }
+    });
+
+    input.addEventListener('blur', function() {
+        if (input.value.trim() !== '') {
+            saveEdit(input, span, li, editButton);
+        } else {
             cancelEdit(input, span, li, currentText);
         }
     });
@@ -76,9 +92,10 @@ function editTask(taskId, span, editButton) {
 
 function saveEdit(input, span, li, editButton) {
     const newText = input.value.trim();
-    span.textContent = newText || "Untitled Task";
+    span.textContent = newText;
     li.insertBefore(span, input);
     li.removeChild(input);
+    editButton.disabled = false;
 }
 
 function cancelEdit(input, span, li, originalText) {
@@ -91,3 +108,10 @@ function deleteTask(taskId) {
     const taskToDelete = document.getElementById(taskId);
     taskList.removeChild(taskToDelete);
 }
+
+taskInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && taskInput.value.trim() !== '') {
+        event.preventDefault(); // Prevent form submission
+        addTask();
+    }
+});

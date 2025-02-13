@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     background: white;
     border-radius: 15px;
@@ -87,11 +87,13 @@ li input.edit-input {
     border: none;
     background: transparent;
     font-size: 16px;
+    margin-right: 10px; 
 }
+
 
 li input.edit-input {
     background: white;
-    border: 1px solid #ccc;
+    border:none;
     border-radius: 5px;
     padding: 5px;
 }
