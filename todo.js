@@ -3,7 +3,7 @@ const taskList = document.getElementById('taskList');
 const addButton = document.getElementById('addButton');
 const taskForm = document.getElementById('taskForm');
 
-let tasks =JSON.parse(localStorage.getItem('tasks'))||[] ;
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 let taskIdCounter = tasks.length ? parseInt(tasks[tasks.length - 1].id.split('-')[1]) + 1 : 0;
 
 window.addEventListener('DOMContentLoaded', displayTasks);
@@ -16,12 +16,13 @@ taskForm.addEventListener('submit', function(event) {
     event.preventDefault(); 
     addTask();
 });
+
 function addTask() {
     const taskText = taskInput.value.trim();
     const taskId = `task-${taskIdCounter++}`;
     const newTask = { id: taskId, title: taskText };
     tasks.push(newTask);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
     displayTasks();
     taskInput.value = '';
     addButton.disabled = true;
@@ -55,6 +56,7 @@ function createTaskElement(task) {
 }
 
 function displayTasks() {
+    taskList.innerHTML = '';  
     tasks.forEach(task => createTaskElement(task));
 }
 
@@ -105,7 +107,7 @@ function saveEdit(input, span, li, editButton, taskId) {
 
     const taskIndex = tasks.findIndex(task => task.id === taskId);
     tasks[taskIndex].title = newText;
-    storage.set('tasks', tasks);
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Fixed the typo here
 }
 
 function cancelEdit(input, span, li, originalText) {
@@ -119,7 +121,7 @@ function deleteTask(taskId) {
     taskList.removeChild(taskToDelete);
 
     tasks = tasks.filter(task => task.id !== taskId);
-    storage.set('tasks', tasks);
+    localStorage.setItem('tasks', JSON.stringify(tasks)); 
 }
 
 taskInput.addEventListener('keydown', function(event) {
